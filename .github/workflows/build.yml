@@ -16,18 +16,19 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-          cache: 'gradle' # Automatically caches Gradle dependencies to speed up future runs
+          cache: 'gradle'
 
+      # FIX: Updated from @v3 to @v4 to natively support the runner's Node.js environment
       - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
+        uses: android-actions/setup-android@v4
 
-      # Combined and streamlined SDK setup using the action environment
+      # Note: setup-android@v4 handles basic licenses out of the box. 
+      # This step installs your specific required SDK 35 components safely.
       - name: Install Android SDK packages
         run: |
           yes | sdkmanager --licenses
           sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
 
-      # Built-in Gradle setup action handles permissions and initialization
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
